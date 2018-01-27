@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin.Security.DataProtection;
 using SimpleInjector;
 using SimpleInjector.Integration.Web;
 using SimpleInjector.Integration.Web.Mvc;
@@ -27,7 +28,7 @@ namespace vinodsharma.IOC
             container.Options.DefaultScopedLifestyle = new WebRequestLifestyle();
             container.Register<ApplicationDbContext, ApplicationDbContext>(Lifestyle.Scoped);
             container.Register<IRoleStore<IdentityRole, string>>(() => new RoleStore<IdentityRole>(container.GetInstance<ApplicationDbContext>()));
-
+            container.Register<IDataProtectionProvider>(() => Startup.DataProtectionProvider);
             container.Register<IUserStore<ApplicationUser>>(() => new UserStore<ApplicationUser>(container.GetInstance<ApplicationDbContext>()));
 
            

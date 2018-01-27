@@ -9,6 +9,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using vinodsharma.Models;
+using vinodsharma.Utils;
 
 namespace vinodsharma.Controllers
 {
@@ -16,9 +17,12 @@ namespace vinodsharma.Controllers
     public class AccountController : Controller
     {
         private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;      
-
-        
+        private ApplicationUserManager _userManager;
+        private Service service;
+        public AccountController(Service service)
+        {
+            this.service = service;
+        }
 
         public ApplicationSignInManager SignInManager
         {
@@ -240,13 +244,13 @@ namespace vinodsharma.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user =  UserManager.FindById(model.UserId);
             if (user == null)
             {
                 // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
-            var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
+            var result = await service.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
