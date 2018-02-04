@@ -7,13 +7,13 @@ namespace vinodsharma.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class first : IMigrationMetadata
+    public sealed partial class maxvalue : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(first));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(maxvalue));
         
         string IMigrationMetadata.Id
         {
-            get { return "201801270940589_first"; }
+            get { return "201802031538499_maxvalue"; }
         }
         
         string IMigrationMetadata.Source

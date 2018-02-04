@@ -23,6 +23,10 @@ namespace vinodsharma.Controllers
         }
         public ActionResult Index()
         {
+            if (Request.IsAuthenticated && User.IsInRole(Roles.Admin))
+            {
+                return RedirectToAction("Index", "Admin");
+            }
             return View();
         }
 

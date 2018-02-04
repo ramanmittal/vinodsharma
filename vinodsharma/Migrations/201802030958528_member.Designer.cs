@@ -7,13 +7,13 @@ namespace vinodsharma.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class DateTimenullable : IMigrationMetadata
+    public sealed partial class member : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(DateTimenullable));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(member));
         
         string IMigrationMetadata.Id
         {
-            get { return "201801271623291_DateTimenullable"; }
+            get { return "201802030958528_member"; }
         }
         
         string IMigrationMetadata.Source

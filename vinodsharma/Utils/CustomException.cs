@@ -5,10 +5,11 @@ using System.Web;
 
 namespace vinodsharma.Utils
 {
-    public class Roles
+    public class CustomException:Exception
     {
-        public const string Admin = "Admin";
-        public const string Customer = "Customer";
-        
+        public CustomException(string msg):base(msg)
+        {
+
+        }
     }
 }

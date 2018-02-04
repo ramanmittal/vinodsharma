@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using vinodsharma.Entities;
+using System.Collections.Generic;
 
 namespace vinodsharma.Models
 {
@@ -17,7 +18,7 @@ namespace vinodsharma.Models
             // Add custom user claims here
             return userIdentity;
         }
-        public virtual Member Member { get; set; }
+        public virtual ICollection<Member> Members { get; set; }
     }
 
     

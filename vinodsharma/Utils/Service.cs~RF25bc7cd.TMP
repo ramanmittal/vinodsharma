@@ -8,9 +8,6 @@ using System.Web;
 using vinodsharma.Entities;
 using vinodsharma.Models;
 using System.Data.Entity;
-using System.Configuration;
-using System.Data.SqlClient;
-
 namespace vinodsharma.Utils
 {
     public class Service
@@ -23,59 +20,6 @@ namespace vinodsharma.Utils
         {
             _userManager = userManager; this.context = context; this.roleManager = roleManager;
         }
-
-        internal object GetInliner(string query)
-        {
-            return context.Members.Where(x => x.DistributerID.ToLower().Contains(query.ToLower())).Take(5).ToList().Select(x => new {
-                id=x.MemberID,
-                name = string.Format("{0} - {1}",x.DistributerID,x.FirstName+" "+x.LastName)
-            }).ToList();
-        }
-
-        internal void CollectMember(Member member)
-        {
-            var parentMeber = context.Members.Single(x => x.MemberID == member.UplineId.Value);
-            using (var transaction=context.Database.BeginTransaction())
-            {
-                context.ApplyLock<Member>();
-                var members = context.Database.SqlQuery<Member>("GetParents @memberID", new SqlParameter("@memberID", member.MemberID)).ToList();
-            }
-        }
-
-        internal Member CreateMember(CreateMemberViewModel model)
-        {
-            var user = new ApplicationUser() { Email = model.Email, UserName = model.Email };
-            _userManager.Create(user);
-            var member = new Member();
-            member.User = user;
-            member.FirstName = model.FirstName;
-            member.LastName = model.LastName;
-            member.IsActive = true;
-            member.MaxValue = model.MaximumAmount;
-            member.Upliner = context.Members.Single(x=>x.DistributerID==model.InlinerID);
-            context.Members.Add(member);
-            context.Commit();
-            return member;
-        }
-
-        internal void VerifyInitializer(string inlinerID)
-        {
-           var member= context.Members.Where(x => x.DistributerID == inlinerID).SingleOrDefault();
-            if (member==null)
-            {
-                throw new CustomException("Invalid Inliner");
-            }
-            if (!member.IsActive.GetValueOrDefault())
-            {
-                throw new CustomException("This inliner is not active.");
-            }
-            var pointvalue = int.Parse(ConfigurationManager.AppSettings["PointValue"]);
-            if ((pointvalue * (member.Points + 1)) > member.MaxValue.GetValueOrDefault())
-            {
-                throw new CustomException("Can not add more members to this inliner");
-            }
-        }
-
         public async Task Initialize()
         {
             var adminEmail = System.Configuration.ConfigurationManager.AppSettings["user1"];

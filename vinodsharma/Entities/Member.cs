@@ -11,8 +11,8 @@ namespace vinodsharma.Entities
     public class Member
     {
         [Key]
-        [ForeignKey("User")]
-        public string MemberID { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int MemberID { get; set; }
         public string Address { get; set; }
         public DateTime? CoDistributerDOB { get; set; }
         public string CoDistributerName { get; set; }
@@ -22,9 +22,14 @@ namespace vinodsharma.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Points { get; set; }
-        public string UplineId { get; set; }
+        public int? MaxValue { get; set; }
+        public bool? IsAlways { get; set; }
+        public int? UplineId { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual Member Upliner { get; set; }
+        public string UserId { get; set; }
         public virtual ICollection<Member> Members { get; set; }
+        public bool? IsActive { get; internal set; }
+        public bool? HasCollected { get; set; }
     }
 }
