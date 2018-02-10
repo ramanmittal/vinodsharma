@@ -34,11 +34,46 @@ namespace vinodsharma.Utils
 
         internal void CollectMember(Member member)
         {
-            var parentMeber = context.Members.Single(x => x.MemberID == member.UplineId.Value);
             using (var transaction=context.Database.BeginTransaction())
-            {
+            {                
                 context.ApplyLock<Member>();
                 var members = context.Database.SqlQuery<Member>("GetParents @memberID", new SqlParameter("@memberID", member.MemberID)).ToList();
+                var parent = members.FirstOrDefault();
+                var nonCollectedSublings = context.Members.Where(x => x.UplineId == parent.MemberID && x.HasCollected != true).ToList();
+                var pointsCollected = nonCollectedSublings.Count / 2;
+                nonCollectedSublings = nonCollectedSublings.Take(pointsCollected * 2).ToList();
+                foreach (var item in nonCollectedSublings)
+                {
+                    item.HasCollected = true;
+                }
+                foreach (var item in members)
+                {
+                    if (item.IsAlways.GetValueOrDefault())
+                    {
+                        context.Members.Attach(item);
+                        item.Points = item.Points + pointsCollected;
+                    }
+                    else if(item.IsActive.GetValueOrDefault())
+                    {
+                        var maxAmount = item.MaxValue.GetValueOrDefault();
+                        var pointvalue = int.Parse(ConfigurationManager.AppSettings["PointValue"]);
+                        for (int i = pointsCollected; i > 0; i--)
+                        {
+                            if ((item.Points + i) * pointvalue > maxAmount)
+                            {
+                                continue;
+                            }
+                            else {
+                                context.Members.Attach(item);
+                                item.Points = item.Points + i;
+                                break;
+                            }
+                        }
+
+                    }
+                }
+                context.Commit();
+                transaction.Commit();
             }
         }
 
@@ -52,15 +87,34 @@ namespace vinodsharma.Utils
             member.LastName = model.LastName;
             member.IsActive = true;
             member.MaxValue = model.MaximumAmount;
-            member.Upliner = context.Members.Single(x=>x.DistributerID==model.InlinerID);
+            member.UplineId = context.Members.AsNoTracking().Single(x=>x.DistributerID==model.InlinerID).MemberID;
             context.Members.Add(member);
-            context.Commit();
+            using (var trans=context.Database.BeginTransaction())
+            {
+                context.ApplyLock<Member>();
+                var distriID = CreateId();
+                while (true)
+                {
+                    if (context.Members.Any(x => x.DistributerID == distriID))
+                    {
+                        distriID = CreateId();
+                    }
+                    else
+                    {
+                        member.DistributerID = distriID;
+                        context.Commit();
+                        trans.Commit();
+                        break;
+                    }
+                }
+            }            
             return member;
         }
 
         internal void VerifyInitializer(string inlinerID)
         {
-           var member= context.Members.Where(x => x.DistributerID == inlinerID).SingleOrDefault();
+           var member= context.Members.AsNoTracking().Where(x => x.DistributerID == inlinerID).SingleOrDefault();
+
             if (member==null)
             {
                 throw new CustomException("Invalid Inliner");
@@ -70,7 +124,7 @@ namespace vinodsharma.Utils
                 throw new CustomException("This inliner is not active.");
             }
             var pointvalue = int.Parse(ConfigurationManager.AppSettings["PointValue"]);
-            if ((pointvalue * (member.Points + 1)) > member.MaxValue.GetValueOrDefault())
+            if (!member.IsAlways.GetValueOrDefault() && (pointvalue * (member.Points + 1)) > member.MaxValue.GetValueOrDefault())
             {
                 throw new CustomException("Can not add more members to this inliner");
             }

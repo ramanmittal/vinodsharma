@@ -197,6 +197,10 @@
     <Compile Include="Migrations\201802031538499_maxvalue.Designer.cs">
       <DependentUpon>201802031538499_maxvalue.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802100801282_GetParents.cs" />
+    <Compile Include="Migrations\201802100801282_GetParents.Designer.cs">
+      <DependentUpon>201802100801282_GetParents.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreateMemberViewModel.cs" />
@@ -287,6 +291,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802031538499_maxvalue.resx">
       <DependentUpon>201802031538499_maxvalue.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802100801282_GetParents.resx">
+      <DependentUpon>201802100801282_GetParents.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

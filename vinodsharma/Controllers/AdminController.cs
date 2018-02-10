@@ -35,12 +35,13 @@ namespace vinodsharma.Controllers
                     service.VerifyInitializer(model.InlinerID);
                     var member=service.CreateMember(model);
                     service.CollectMember(member);
+                    return RedirectToAction("Index");
                 }
                 catch (CustomException ex)
                 {
-                    ModelState.AddModelError("InlinerID", ex);
+                    ModelState.AddModelError("InlinerID", ex.Message);
                 }
-                return RedirectToAction("Index");
+                
             }
             return View();
         }
