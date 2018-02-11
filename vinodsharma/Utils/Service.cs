@@ -77,6 +77,16 @@ namespace vinodsharma.Utils
             }
         }
 
+        internal void EditUser(EditUserModel model)
+        {
+            var member = context.Members.Single(x => x.MemberID == model.MemeberID);
+            member.FirstName = model.FirstName;
+            member.LastName = model.LastName;
+            member.MaxValue = model.MaxValue;
+            member.IsActive = model.IsActive;
+            context.Commit();
+        }
+
         internal Member CreateMember(CreateMemberViewModel model)
         {
             var user = new ApplicationUser() { Email = model.Email, UserName = model.Email };
@@ -244,6 +254,21 @@ namespace vinodsharma.Utils
             var id= "VS"+ new string(Enumerable.Repeat(chars, 6)
               .Select(s => s[random.Next(s.Length)]).ToArray());            
             return id;
+        }
+
+        public EditUserViewModel GetEditUser(int memberid) {
+            var member = context.Members.Single(x => x.MemberID == memberid);
+            var model = new EditUserViewModel
+            {
+                Email = member.User.Email,
+                FirstName=member.FirstName,
+                IsActive=member.IsActive.GetValueOrDefault(),
+                LastName=member.LastName,
+                MaxValue=member.MaxValue.GetValueOrDefault(),
+                MembershipID=member.DistributerID,
+                MemeberID=member.MemberID
+            };
+            return model;
         }
     }
 }

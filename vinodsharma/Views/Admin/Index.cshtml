@@ -7,68 +7,82 @@
 <h2>&nbsp;</h2>
 
 <p>
-    @Html.ActionLink("Create New", "CreateMember")
+    @Html.ActionLink("Create New", "CreateMember",null,new { @class="btn btn-primary"})
 </p>
 <table class="table">
-    <tr>        
-        <th>
-            @Html.DisplayNameFor(model => model.FullName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.MembershipID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.InlinerName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IntlinerID)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Points)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.IsActive)
-        </th>        
-        <th></th>
-    </tr>
-    @if (Model != null)
-    {
-        foreach (var item in Model)
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MembershipID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InlinerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IntlinerID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Points)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
         {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FullName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.MembershipID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.InlinerName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IntlinerID)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Points)
-                </td>
-                <td>
-                    @if (item.IsActive)
+
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.FullName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.MembershipID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.InlinerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IntlinerID)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Points)
+                    </td>
+                    <td>
+                        @if (item.IsActive)
                     {
-                        <span class="glyphicon glyphicon-ok"></span>
-                    }
-                    else
-                    {
-                        <span class="glyphicon glyphicon-off"></span>
-                    }
-                </td>
-                <td>
-                    @*@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                            <span class="glyphicon glyphicon-ok"></span>
+                        }
+                        else
+                        {
+                            <span class="glyphicon glyphicon-off"></span>
+                        }
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditMember", new { memberID = item.MemberID })
+                        @* | @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                         @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-                </td>
-            </tr>
+                    </td>
+                </tr>
+            }
         }
-    }
+    </tbody>
+    
 
 
 </table>
+@section scripts
+    {
+         <script>
+             $(document).ready(function () {
+                 $('table').DataTable();
+             });
+         </script>
+    }

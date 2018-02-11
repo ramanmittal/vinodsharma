@@ -45,5 +45,21 @@ namespace vinodsharma.Controllers
             }
             return View();
         }
+
+        public ActionResult EditMember(int memberID) {
+            var model = service.GetEditUser(memberID);
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult EditMember(EditUserModel model) {
+
+            if (ModelState.IsValid)
+            {
+                service.EditUser(model);
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
     }
 }
