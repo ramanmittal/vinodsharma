@@ -201,6 +201,14 @@
     <Compile Include="Migrations\201802100801282_GetParents.Designer.cs">
       <DependentUpon>201802100801282_GetParents.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802111246198_hasdeleted.cs" />
+    <Compile Include="Migrations\201802111246198_hasdeleted.Designer.cs">
+      <DependentUpon>201802111246198_hasdeleted.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802111313326_profilechanges.cs" />
+    <Compile Include="Migrations\201802111313326_profilechanges.Designer.cs">
+      <DependentUpon>201802111313326_profilechanges.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreateMemberViewModel.cs" />
@@ -208,6 +216,7 @@
     <Compile Include="Models\EditUserViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\UrerProfileModel.cs" />
     <Compile Include="Models\UserlistviewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -216,16 +225,25 @@
     <Compile Include="Utils\Service.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datepicker.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\DataTables-1.10.16\images\sort_asc.png" />
+    <Content Include="Content\DataTables-1.10.16\images\sort_asc_disabled.png" />
+    <Content Include="Content\DataTables-1.10.16\images\sort_both.png" />
+    <Content Include="Content\DataTables-1.10.16\images\sort_desc.png" />
+    <Content Include="Content\DataTables-1.10.16\images\sort_desc_disabled.png" />
+    <Content Include="Content\datatables.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap-typeahead.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\datatables.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -276,6 +294,8 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\CreateMember.cshtml" />
     <Content Include="Views\Admin\EditMember.cshtml" />
+    <Content Include="Views\Home\Members.cshtml" />
+    <Content Include="Views\Home\UpdateProfile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -297,6 +317,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802100801282_GetParents.resx">
       <DependentUpon>201802100801282_GetParents.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802111246198_hasdeleted.resx">
+      <DependentUpon>201802111246198_hasdeleted.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802111313326_profilechanges.resx">
+      <DependentUpon>201802111313326_profilechanges.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

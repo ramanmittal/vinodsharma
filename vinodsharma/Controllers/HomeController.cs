@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using vinodsharma.Models;
 using vinodsharma.Utils;
 
 namespace vinodsharma.Controllers
@@ -42,6 +44,22 @@ namespace vinodsharma.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        [Authorize(Roles = Roles.Customer)]
+        public ActionResult Members()
+        {
+            var id = User.Identity.GetUserId();
+            List<UserlistviewModel> list =service.GetChildren(id);
+            ViewBag.Points = service.GetPoints(id);
+            return View(list);
+        }
+
+        public ActionResult UpdateProfile()
+        {
+            var id = User.Identity.GetUserId();
+            var model = service.GetProfileModel(id);
+            return View(model);
         }
     }
 }

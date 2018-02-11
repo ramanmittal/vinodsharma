@@ -15,7 +15,8 @@ namespace vinodsharma.Entities
         public int MemberID { get; set; }
         public string Address { get; set; }
         public DateTime? CoDistributerDOB { get; set; }
-        public string CoDistributerName { get; set; }
+        public string CoDistributerFirstName { get; set; }
+        public string CoDistributerLastName { get; set; }
         public string CoDistributerRelation { get; set; }
         public DateTime? Dob { get; set; }
         public string DistributerID { get; set; }
@@ -28,8 +29,12 @@ namespace vinodsharma.Entities
         public virtual ApplicationUser User { get; set; }
         public virtual Member Upliner { get; set; }
         public string UserId { get; set; }
+        public bool HasDeleted { get; set; }
         public virtual ICollection<Member> Members { get; set; }
         public bool? IsActive { get; internal set; }
         public bool? HasCollected { get; set; }
+        public string City { get; set; }
+        public string State { get; set; }
+        public string PinCode { get; set; }
     }
 }

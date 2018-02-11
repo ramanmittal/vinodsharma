@@ -35,6 +35,7 @@ namespace vinodsharma.Controllers
                     service.VerifyInitializer(model.InlinerID);
                     var member=service.CreateMember(model);
                     service.CollectMember(member);
+                    
                     return RedirectToAction("Index");
                 }
                 catch (CustomException ex)

@@ -56,14 +56,14 @@
                         @Html.DisplayFor(modelItem => item.Points)
                     </td>
                     <td>
-                        @if (item.IsActive)
-                    {
-                            <span class="glyphicon glyphicon-ok"></span>
-                        }
-                        else
+                            @if (item.IsActive)
                         {
-                            <span class="glyphicon glyphicon-off"></span>
-                        }
+                                <span class="glyphicon glyphicon-ok"></span>
+                            }
+                            else
+                            {
+                                <span class="glyphicon glyphicon-off"></span>
+                            }
                     </td>
                     <td>
                         @Html.ActionLink("Edit", "EditMember", new { memberID = item.MemberID })

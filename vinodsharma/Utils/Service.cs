@@ -77,6 +77,31 @@ namespace vinodsharma.Utils
             }
         }
 
+        internal List<UserlistviewModel> GetChildren(string id)
+        {
+            var memberID = context.Members.AsNoTracking().First(x => x.User.Id == id && x.HasDeleted != true).MemberID;
+            
+            var memberids=context.Database.SqlQuery<Member>("GetChildren @memberID", new SqlParameter("@memberID", memberID)).Select(x => x.MemberID);
+            var log = "";
+            context.Database.Log = x => { log = log + x; };
+            var members = context.Members.Where(x => memberids.Contains(x.MemberID)).Select(x => new UserlistviewModel
+            {
+                FullName = x.FirstName + " " + x.LastName,
+                InlinerName = x.UplineId.HasValue ? x.Upliner.FirstName + " " + x.Upliner.LastName : null,
+                IsActive = x.IsActive.HasValue ? x.IsActive.Value : false,
+                IntlinerID = x.UplineId.HasValue ? x.Upliner.DistributerID : null,
+                MembershipID = x.DistributerID,
+                Points = x.Points,
+                MemberID = x.MemberID,
+                IsAlways = x.IsAlways.HasValue ? x.IsAlways.Value : false
+            }).ToList();
+            //var members = context.Database.SqlQuery<Member>("GetChildren @memberID", new SqlParameter("@memberID", memberID)).Select(x => new UserlistviewModel
+            //{
+
+            //}).ToList();
+            return members;
+        }
+
         internal void EditUser(EditUserModel model)
         {
             var member = context.Members.Single(x => x.MemberID == model.MemeberID);
@@ -91,6 +116,8 @@ namespace vinodsharma.Utils
         {
             var user = new ApplicationUser() { Email = model.Email, UserName = model.Email };
             _userManager.Create(user);
+            var roleID = roleManager.FindByName(Roles.Customer).Id;
+            user.Roles.Add(new IdentityUserRole {RoleId=roleID,UserId=user.Id });
             var member = new Member();
             member.User = user;
             member.FirstName = model.FirstName;
@@ -267,6 +294,32 @@ namespace vinodsharma.Utils
                 MaxValue=member.MaxValue.GetValueOrDefault(),
                 MembershipID=member.DistributerID,
                 MemeberID=member.MemberID
+            };
+            return model;
+        }
+
+        public int GetPoints(string userid) {
+            return context.Members.AsNoTracking().First(x => x.User.Id == userid && x.HasDeleted != true).Points;
+        }
+
+        public UrerProfileModel GetProfileModel(string userID)
+        {
+            var member = context.Members.First(x => x.UserId == userID && x.HasDeleted == false);
+            var model = new UrerProfileModel
+            {
+                Address = member.Address,
+                City = member.City,
+                CoDistributerFirstName = member.CoDistributerFirstName,
+                CoDistributerLasttName = member.CoDistributerLastName,
+                CoDob = member.CoDistributerDOB,
+                DOB = member.Dob,
+                Email = member.User.Email,
+                FirstName = member.FirstName,
+                LastName = member.LastName,
+                MembershipID = member.DistributerID,
+                Phone = member.User.PhoneNumber,
+                PinCode = member.PinCode,
+                State=member.State                
             };
             return model;
         }
