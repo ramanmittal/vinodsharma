@@ -185,26 +185,21 @@ namespace vinodsharma.Utils
                 context.ApplyLock<Member>();
                 if ((await _userManager.FindByEmailAsync(adminEmail)) == null)
                 {
-
-                    var adminUser = new ApplicationUser() { Email = adminEmail, UserName = adminEmail, EmailConfirmed = true };
-                    await _userManager.CreateAsync(adminUser);
                     var adminMember = new Member();
                     adminMember.FirstName = "Vinod";
-                    adminMember.LastName = "Sharma";
-                    adminMember.User = adminUser;
+                    adminMember.LastName = "Sharma";                    
                     adminMember.IsActive = true;
                     adminMember.Points = 1;
                     adminMember.IsAlways = true;
                     adminMember.DistributerID = CreateId();
+                    var adminUser = new ApplicationUser() { Email = adminEmail, UserName = adminMember.DistributerID, EmailConfirmed = true };
+                    await _userManager.CreateAsync(adminUser);
+                    adminMember.User = adminUser;
                     context.Members.Add(adminMember);
                     adminUser.Roles.Add(new IdentityUserRole { RoleId = roleManager.FindByName(Roles.Admin.ToString()).Id, UserId = adminUser.Id });
-                    var email = System.Configuration.ConfigurationManager.AppSettings["user2"];
-                    var user = new ApplicationUser() { Email = email, UserName = email, EmailConfirmed = true };
-                    await _userManager.CreateAsync(user);
                     var member = new Member();
                     member.FirstName = "Vinod";
                     member.LastName = "Sharma";
-                    member.User = user;
                     member.IsActive = true;
                     var id1 = CreateId();
                     while (true)
@@ -216,18 +211,19 @@ namespace vinodsharma.Utils
                         id1 = CreateId();
                     }
                     member.DistributerID = id1;
+                    var user = new ApplicationUser() { UserName = member.DistributerID };
+                    await _userManager.CreateAsync(user);
+                    member.User = user;
                     member.Upliner = adminMember;
                     member.IsAlways = true;
                     member.HasCollected = true;
                     context.Members.Add(member);
                     user.Roles.Add(new IdentityUserRole { RoleId = roleManager.FindByName(Roles.Customer.ToString()).Id, UserId = user.Id });
-                    email = System.Configuration.ConfigurationManager.AppSettings["user3"];
-                    user = new ApplicationUser() { Email = email, UserName = email, EmailConfirmed = true };
-                    await _userManager.CreateAsync(user);
+                    
+                    
                     member = new Member();
                     member.FirstName = "Vinod";
                     member.LastName = "Sharma";
-                    member.User = user;
                     member.IsActive = true;
                     var id2 = CreateId();
                     while (true)
@@ -239,6 +235,9 @@ namespace vinodsharma.Utils
                         id2 = CreateId();
                     }
                     member.DistributerID = id2;
+                    user = new ApplicationUser() { UserName = member.DistributerID, EmailConfirmed = true };
+                    await _userManager.CreateAsync(user);
+                    member.User = user;
                     member.Upliner = adminMember;
                     member.IsAlways = true;
                     member.HasCollected = true;
