@@ -17,6 +17,8 @@ namespace vinodsharma.Models
         public int MaxValue { get; set; }
         public bool IsActive { get; set; }
         public string MembershipID { get; set; }
+        [Required]
+        [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
     }
 }

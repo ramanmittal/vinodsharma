@@ -29,22 +29,30 @@ namespace vinodsharma.Controllers
             {
                 return RedirectToAction("Index", "Admin");
             }
-            return View();
+            if (Request.IsAuthenticated && User.IsInRole(Roles.Customer))
+            {
+                return RedirectToAction("UpdateProfile");
+            }
+            else
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            
         }
 
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
+        //public ActionResult About()
+        //{
+        //    ViewBag.Message = "Your application description page.";
 
-            return View();
-        }
+        //    return View();
+        //}
 
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+        //public ActionResult Contact()
+        //{
+        //    ViewBag.Message = "Your contact page.";
 
-            return View();
-        }
+        //    return View();
+        //}
 
         [Authorize(Roles = Roles.Customer)]
         public ActionResult Members()

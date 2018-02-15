@@ -109,6 +109,7 @@ namespace vinodsharma.Utils
             member.LastName = model.LastName;
             member.MaxValue = model.MaxValue;
             member.IsActive = model.IsActive;
+            member.User.Email = model.Email;
             context.Commit();
         }
 

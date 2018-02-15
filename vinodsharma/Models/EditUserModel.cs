@@ -16,5 +16,8 @@ namespace vinodsharma.Models
         [Required]
         public int MaxValue { get; set; }
         public bool IsActive { get; set; }
+        [Required]
+        [DataType(DataType.EmailAddress)]
+        public string Email { get; set; }
     }
 }
