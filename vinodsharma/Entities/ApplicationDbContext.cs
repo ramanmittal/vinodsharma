@@ -94,5 +94,6 @@ namespace vinodsharma.Entities
         }
 
         public DbSet<Member> Members { get; set; }
+        public DbSet<MemeberAmountHistory> MemeberAmountHistory { get; set; }
     }
 }

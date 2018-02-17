@@ -62,5 +62,35 @@ namespace vinodsharma.Controllers
             return View();
         }
 
+        public ActionResult GiveMoney(int id) {
+            AddMoneyViewModel model = service.GetGiveMoneyModel(id);
+            //model.Date = DateTime.UtcNow.Date;
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult GiveMoney(AddMoneyModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    service.VerifyAmount(model);
+                    service.AddMoney(model);
+                    return RedirectToAction("EditMember", new { memberID = model.MemberID });
+                }
+                catch (CustomException ex)
+                {
+                    ViewData.Model= service.GetGiveMoneyModel(model.MemberID);
+                    ModelState.AddModelError("Amount", ex.Message);
+                }
+                
+            }
+            return View();
+        }
+        public ActionResult Members(int memberID)
+        {
+            List<UserlistviewModel> list = service.GetChildren(memberID);
+            return View(list);
+        }
     }
 }

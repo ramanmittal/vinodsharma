@@ -77,11 +77,52 @@ namespace vinodsharma.Utils
             }
         }
 
-        internal List<UserlistviewModel> GetChildren(string id)
+        internal bool VerifyAmount(AddMoneyModel model)
         {
-            var memberID = context.Members.AsNoTracking().First(x => x.User.Id == id && x.HasDeleted != true).MemberID;
-            
-            var memberids=context.Database.SqlQuery<Member>("GetChildren @memberID", new SqlParameter("@memberID", memberID)).Select(x => x.MemberID);
+            var member = context.Members.Single(x => x.MemberID == model.MemberID);
+            if ((member.Points * decimal.Parse(ConfigurationManager.AppSettings["PointValue"])) < (member.AmountGiven + model.Amount))
+            {
+                throw new CustomException("Given amount can not be more than point value.");
+            }
+            return true;
+        }
+
+        internal void AddMoney(AddMoneyModel model)
+        {
+            using (var trans = context.Database.BeginTransaction())
+            {
+                context.ApplyLock<Member>();
+                context.ApplyLock<MemeberAmountHistory>();
+                var memebr = context.Members.Single(x => x.MemberID == model.MemberID);
+                memebr.AmountGiven = memebr.AmountGiven.GetValueOrDefault() + model.Amount;
+                var now = DateTime.UtcNow;
+                context.MemeberAmountHistory.Add(new MemeberAmountHistory { AmountGiven = model.Amount, Date = now, MemeberID = model.MemberID });
+                context.Commit();
+                trans.Commit();
+            }
+        }
+
+        internal AddMoneyViewModel GetGiveMoneyModel(int id)
+        {
+            return context.Members.Where(x => x.MemberID == id).Select(x => new AddMoneyViewModel
+            {
+                AmountGiven = x.AmountGiven.HasValue ? x.AmountGiven.Value : 0m,
+                MemberID = x.MemberID,
+                MemberShipID = x.DistributerID,
+                Points = x.Points
+            }).Single();
+        }
+
+        internal List<UserlistviewModel> GetChildren(string userID)
+        {
+            var memberID = context.Members.AsNoTracking().First(x => x.User.Id == userID && x.HasDeleted != true).MemberID;
+
+            return GetChildren(memberID);
+        }
+
+        internal List<UserlistviewModel> GetChildren(int memberID)
+        {
+            var memberids = context.Database.SqlQuery<Member>("GetChildren @memberID", new SqlParameter("@memberID", memberID)).Select(x => x.MemberID);
             var log = "";
             context.Database.Log = x => { log = log + x; };
             var members = context.Members.Where(x => memberids.Contains(x.MemberID)).Select(x => new UserlistviewModel
@@ -95,10 +136,7 @@ namespace vinodsharma.Utils
                 MemberID = x.MemberID,
                 IsAlways = x.IsAlways.HasValue ? x.IsAlways.Value : false
             }).ToList();
-            //var members = context.Database.SqlQuery<Member>("GetChildren @memberID", new SqlParameter("@memberID", memberID)).Select(x => new UserlistviewModel
-            //{
 
-            //}).ToList();
             return members;
         }
 
@@ -166,6 +204,16 @@ namespace vinodsharma.Utils
             {
                 throw new CustomException("Can not add more members to this inliner");
             }
+        }
+
+        internal IdentityResult ChangePassword(string userid, string oldPassword, string newPassword)
+        {
+            var result = _userManager.ChangePassword(userid, oldPassword, newPassword);
+            if (result.Succeeded)
+            {
+                context.Commit();
+            }
+            return result;
         }
 
         public async Task Initialize()

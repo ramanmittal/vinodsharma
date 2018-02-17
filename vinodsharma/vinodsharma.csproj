@@ -210,8 +210,13 @@
     <Compile Include="Migrations\201802111313326_profilechanges.Designer.cs">
       <DependentUpon>201802111313326_profilechanges.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802170751411_amountgiven.cs" />
+    <Compile Include="Migrations\201802170751411_amountgiven.Designer.cs">
+      <DependentUpon>201802170751411_amountgiven.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\AddMoneyModel.cs" />
     <Compile Include="Models\AddMoneyViewModel.cs" />
     <Compile Include="Models\CreateMemberViewModel.cs" />
     <Compile Include="Models\EditUserModel.cs" />
@@ -296,9 +301,10 @@
     <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Admin\CreateMember.cshtml" />
     <Content Include="Views\Admin\EditMember.cshtml" />
-    <Content Include="Views\Home\Members.cshtml" />
+    <Content Include="Views\Admin\Members.cshtml" />
     <Content Include="Views\Home\UpdateProfile.cshtml" />
     <Content Include="Views\Admin\GiveMoney.cshtml" />
+    <Content Include="Views\Admin\GiveMoney1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -326,6 +332,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802111313326_profilechanges.resx">
       <DependentUpon>201802111313326_profilechanges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802170751411_amountgiven.resx">
+      <DependentUpon>201802170751411_amountgiven.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

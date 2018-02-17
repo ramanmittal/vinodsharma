@@ -55,14 +55,6 @@ namespace vinodsharma.Controllers
         //}
 
         [Authorize(Roles = Roles.Customer)]
-        public ActionResult Members()
-        {
-            var id = User.Identity.GetUserId();
-            List<UserlistviewModel> list =service.GetChildren(id);
-            ViewBag.Points = service.GetPoints(id);
-            return View(list);
-        }
-
         public ActionResult UpdateProfile()
         {
             var id = User.Identity.GetUserId();
