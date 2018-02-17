@@ -80,7 +80,8 @@
 <div>
     @Html.ActionLink("Back to List", "Index") |
     @Html.ActionLink("Give Money", "GiveMoney",new { id = Model.MemeberID }) |
-    @Html.ActionLink("View Members", "Members", new { memberID = Model.MemeberID })
+    @Html.ActionLink("View Members", "Members", new { memberID = Model.MemeberID }) |
+    @Html.ActionLink("Reset Password", "SetPassword", "Manage", new { memberID = Model.MemeberID },null)
 
 </div>
 

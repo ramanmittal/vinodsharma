@@ -80,7 +80,7 @@ namespace vinodsharma.Utils
         internal bool VerifyAmount(AddMoneyModel model)
         {
             var member = context.Members.Single(x => x.MemberID == model.MemberID);
-            if ((member.Points * decimal.Parse(ConfigurationManager.AppSettings["PointValue"])) < (member.AmountGiven + model.Amount))
+            if ((member.Points * decimal.Parse(ConfigurationManager.AppSettings["PointValue"])) < (member.AmountGiven.GetValueOrDefault() + model.Amount))
             {
                 throw new CustomException("Given amount can not be more than point value.");
             }
@@ -152,19 +152,8 @@ namespace vinodsharma.Utils
         }
 
         internal Member CreateMember(CreateMemberViewModel model)
-        {
-            var user = new ApplicationUser() { Email = model.Email, UserName = model.Email };
-            _userManager.Create(user);
-            var roleID = roleManager.FindByName(Roles.Customer).Id;
-            user.Roles.Add(new IdentityUserRole {RoleId=roleID,UserId=user.Id });
-            var member = new Member();
-            member.User = user;
-            member.FirstName = model.FirstName;
-            member.LastName = model.LastName;
-            member.IsActive = true;
-            member.MaxValue = model.MaximumAmount;
-            member.UplineId = context.Members.AsNoTracking().Single(x=>x.DistributerID==model.InlinerID).MemberID;
-            context.Members.Add(member);
+        {  
+            var member = new Member();            
             using (var trans=context.Database.BeginTransaction())
             {
                 context.ApplyLock<Member>();
@@ -177,7 +166,18 @@ namespace vinodsharma.Utils
                     }
                     else
                     {
+                        var user = new ApplicationUser() { Email = model.Email, UserName = distriID };
+                        _userManager.Create(user);
+                        var roleID = roleManager.FindByName(Roles.Customer).Id;
+                        user.Roles.Add(new IdentityUserRole { RoleId = roleID, UserId = user.Id });
                         member.DistributerID = distriID;
+                        member.User = user;
+                        member.FirstName = model.FirstName;
+                        member.LastName = model.LastName;
+                        member.IsActive = true;
+                        member.MaxValue = model.MaximumAmount;
+                        member.UplineId = context.Members.AsNoTracking().Single(x => x.DistributerID == model.InlinerID).MemberID;
+                        context.Members.Add(member);
                         context.Commit();
                         trans.Commit();
                         break;
@@ -185,6 +185,13 @@ namespace vinodsharma.Utils
                 }
             }            
             return member;
+        }
+
+        internal IdentityResult ResetPassword(SetPasswordViewModel model)
+        {
+            var member = context.Members.Single(x => x.MemberID == model.MemberID);
+            var token = _userManager.GeneratePasswordResetTokenAsync(member.UserId).Result;
+            return ResetPasswordAsync(member.UserId, token, model.NewPassword).Result;
         }
 
         internal void VerifyInitializer(string inlinerID)
@@ -301,6 +308,8 @@ namespace vinodsharma.Utils
 
         public async Task<IdentityResult> ResetPasswordAsync(string userId, string token, string newPassword)
         {
+            var log = "";
+            context.Database.Log = x => { log = log + x; };
             var result = await _userManager.ResetPasswordAsync(userId, token, newPassword);
             context.Commit();
             return result;
@@ -370,6 +379,11 @@ namespace vinodsharma.Utils
                 State=member.State                
             };
             return model;
+        }
+
+        internal ApplicationUser GetUser(int memberID) {
+
+            return context.Members.Single(x => x.MemberID == memberID).User;
         }
     }
 }
