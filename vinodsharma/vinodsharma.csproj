@@ -185,6 +185,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Entities\ApplicationDbContext.cs" />
     <Compile Include="Entities\Member.cs" />
+    <Compile Include="Entities\MemeberAmountHistory.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

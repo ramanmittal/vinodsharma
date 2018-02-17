@@ -26,6 +26,7 @@ namespace vinodsharma.Entities
         public int? MaxValue { get; set; }
         public bool? IsAlways { get; set; }
         public int? UplineId { get; set; }
+        public decimal? AmountGiven { get; set; }
         public virtual ApplicationUser User { get; set; }
         public virtual Member Upliner { get; set; }
         public string UserId { get; set; }
@@ -36,5 +37,6 @@ namespace vinodsharma.Entities
         public string City { get; set; }
         public string State { get; set; }
         public string PinCode { get; set; }
+        public virtual ICollection<MemeberAmountHistory> MemeberAmountHistory { get; set; }
     }
 }

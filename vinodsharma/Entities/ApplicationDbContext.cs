@@ -23,6 +23,7 @@ namespace vinodsharma.Entities
         {
             modelBuilder.Entity<ApplicationUser>().HasMany(x => x.Members).WithRequired(x => x.User).HasForeignKey(x => x.UserId);
             modelBuilder.Entity<Member>().HasOptional(x => x.Upliner).WithMany(x => x.Members).HasForeignKey(x => x.UplineId).WillCascadeOnDelete(false);
+            modelBuilder.Entity<Member>().HasMany(x => x.MemeberAmountHistory).WithRequired(x => x.Member).HasForeignKey(x => x.MemeberID).WillCascadeOnDelete();
             base.OnModelCreating(modelBuilder);
         }
         public static ApplicationDbContext Create()
