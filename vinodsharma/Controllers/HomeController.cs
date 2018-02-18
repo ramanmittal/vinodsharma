@@ -61,7 +61,15 @@ namespace vinodsharma.Controllers
         {
             var id = User.Identity.GetUserId();
             var model = service.GetProfileModel(id);
+            ViewBag.Points = service.GetPoints(id);
             return View(model);
+        }
+        [Authorize(Roles = Roles.Customer)]
+        public ActionResult PaymentHistory()
+        {
+            var id = User.Identity.GetUserId();
+            var model = service.PaymentHistory(id);
+            return View( model);
         }
     }
 }

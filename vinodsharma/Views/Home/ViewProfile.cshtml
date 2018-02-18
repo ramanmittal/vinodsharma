@@ -9,7 +9,15 @@
 <div>
    
     <hr />
+    @Html.ActionLink("Paymnet History", "PaymentHistory")
     <dl class="dl-horizontal">
+        <dt>
+           Your Points
+        </dt>
+
+        <dd>
+            @ViewBag.Points
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.FirstName)
         </dt>
@@ -115,5 +123,7 @@
         </dd>
 
     </dl>
+
+    
 </div>
 

@@ -77,6 +77,11 @@ namespace vinodsharma.Utils
             }
         }
 
+        internal object PaymentHistory(string userID)
+        {
+            return PaymentHistory(context.Members.Single(x=>x.UserId==userID).MemberID);
+        }
+
         internal bool VerifyAmount(AddMoneyModel model)
         {
             var member = context.Members.Single(x => x.MemberID == model.MemberID);
