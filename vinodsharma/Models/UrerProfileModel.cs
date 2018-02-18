@@ -16,14 +16,17 @@ namespace vinodsharma.Models
         public string LastName { get; set; }
         
         [DisplayName("Date Of Birth")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? DOB { get; set; }
         public string MembershipID { get; set; }
+        [EmailAddress]
         public string Email { get; set; }
         
         public string CoDistributerFirstName { get; set; }
         
         public string CoDistributerLasttName { get; set; }
         [DisplayName("Co Distributer DOB")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
         public DateTime? CoDob { get; set; }
         
         public string Phone { get; set; }

@@ -229,8 +229,8 @@ namespace vinodsharma.Utils
             {
                 throw new CustomException("This inliner is not active.");
             }
-            var pointvalue = int.Parse(ConfigurationManager.AppSettings["PointValue"]);
-            if (!member.IsAlways.GetValueOrDefault() && (pointvalue * (member.Points + 1)) > member.MaxValue.GetValueOrDefault())
+            var directchildren = context.Members.Where(x => x.UplineId == member.MemberID).Count();
+            if (directchildren > 1)
             {
                 throw new CustomException("Can not add more members to this inliner");
             }
