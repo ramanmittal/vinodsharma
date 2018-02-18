@@ -97,5 +97,20 @@ namespace vinodsharma.Controllers
             var data = service.PaymentHistory(memberID);
             return View(data);
         }
+
+        public ActionResult UpdateProfile(int memberID)
+        {            
+            var model = service.GetProfileModel(memberID);
+            return View(model);
+        }
+        [HttpPost]
+        public ActionResult UpdateProfile(UrerProfileModel model) {
+            if (ModelState.IsValid)
+            {
+                service.UpdateProfile(model);
+                return RedirectToAction("EditMember", new { memberID = model.MemberID });
+            }
+            return View();
+        }
     }
 }

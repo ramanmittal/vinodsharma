@@ -31,7 +31,7 @@ namespace vinodsharma.Controllers
             }
             if (Request.IsAuthenticated && User.IsInRole(Roles.Customer))
             {
-                return RedirectToAction("UpdateProfile");
+                return RedirectToAction("ViewProfile");
             }
             else
             {
@@ -54,8 +54,10 @@ namespace vinodsharma.Controllers
         //    return View();
         //}
 
+        
+
         [Authorize(Roles = Roles.Customer)]
-        public ActionResult UpdateProfile()
+        public ActionResult ViewProfile()
         {
             var id = User.Identity.GetUserId();
             var model = service.GetProfileModel(id);

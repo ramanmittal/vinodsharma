@@ -78,10 +78,12 @@
 }
 
 <div>
-    @Html.ActionLink("Back to List", "Index") |
-    @Html.ActionLink("Give Money", "GiveMoney",new { id = Model.MemeberID }) |
-    @Html.ActionLink("View Members", "Members", new { memberID = Model.MemeberID }) |
-    @Html.ActionLink("Reset Password", "SetPassword", "Manage", new { memberID = Model.MemeberID },null)
+    @Html.ActionLink("Back to List", "Index") <br />
+    @Html.ActionLink("Give Money", "GiveMoney",new { id = Model.MemeberID }) <br />
+    @Html.ActionLink("View Members", "Members", new { memberID = Model.MemeberID }) <br />
+    @Html.ActionLink("Reset Password", "SetPassword", "Manage", new { memberID = Model.MemeberID },null)<br />
+    @Html.ActionLink("Paymnet History", "PaymnetHistory", new { memberID = Model.MemeberID })<br />
+    @Html.ActionLink("Update Profile", "updateProfile", new { memberID = Model.MemeberID })
 
 </div>
 

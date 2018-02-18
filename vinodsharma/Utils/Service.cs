@@ -87,6 +87,24 @@ namespace vinodsharma.Utils
             return true;
         }
 
+        internal void UpdateProfile(UrerProfileModel model)
+        {
+            var member = context.Members.Single(x => x.MemberID == model.MemberID);
+            member.FirstName = model.FirstName;
+            member.LastName = model.LastName;
+            member.Dob = model.DOB;
+            member.User.Email = model.Email;
+            member.CoDistributerFirstName = model.CoDistributerFirstName;
+            member.CoDistributerLastName = model.CoDistributerLasttName;
+            member.CoDistributerDOB = model.CoDob;
+            member.User.PhoneNumber = model.Phone;
+            member.Address = model.Address;
+            member.City = model.City;
+            member.State = model.State;
+            member.PinCode = model.PinCode;
+            context.Commit();
+        }
+
         internal void AddMoney(AddMoneyModel model)
         {
             using (var trans = context.Database.BeginTransaction())
@@ -377,6 +395,29 @@ namespace vinodsharma.Utils
                 Phone = member.User.PhoneNumber,
                 PinCode = member.PinCode,
                 State=member.State                
+            };
+            return model;
+        }
+
+        public UrerProfileModel GetProfileModel(int memberID)
+        {
+            var member = context.Members.First(x => x.MemberID == memberID);
+            var model = new UrerProfileModel
+            {
+                Address = member.Address,
+                MemberID=memberID,
+                City = member.City,
+                CoDistributerFirstName = member.CoDistributerFirstName,
+                CoDistributerLasttName = member.CoDistributerLastName,
+                CoDob = member.CoDistributerDOB,
+                DOB = member.Dob,
+                Email = member.User.Email,
+                FirstName = member.FirstName,
+                LastName = member.LastName,
+                MembershipID = member.DistributerID,
+                Phone = member.User.PhoneNumber,
+                PinCode = member.PinCode,
+                State = member.State
             };
             return model;
         }
