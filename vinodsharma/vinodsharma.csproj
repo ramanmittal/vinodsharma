@@ -305,6 +305,7 @@
     <Content Include="Views\Home\UpdateProfile.cshtml" />
     <Content Include="Views\Admin\GiveMoney.cshtml" />
     <Content Include="Views\Admin\GiveMoney1.cshtml" />
+    <Content Include="Views\Admin\PaymnetHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

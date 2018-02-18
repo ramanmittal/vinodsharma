@@ -92,5 +92,10 @@ namespace vinodsharma.Controllers
             List<UserlistviewModel> list = service.GetChildren(memberID);
             return View(list);
         }
+
+        public ActionResult PaymnetHistory(int memberID) {
+            var data = service.PaymentHistory(memberID);
+            return View(data);
+        }
     }
 }

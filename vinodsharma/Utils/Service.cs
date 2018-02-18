@@ -385,5 +385,9 @@ namespace vinodsharma.Utils
 
             return context.Members.Single(x => x.MemberID == memberID).User;
         }
+
+        internal List<KeyValuePair<DateTime, decimal>> PaymentHistory(int memberId) {
+            return context.MemeberAmountHistory.Where(x => x.MemeberID == memberId).Select(x=> new { x.Date,x.AmountGiven}).ToList().Select(x => new KeyValuePair<DateTime, decimal>(x.Date, x.AmountGiven)).ToList();
+        }
     }
 }
