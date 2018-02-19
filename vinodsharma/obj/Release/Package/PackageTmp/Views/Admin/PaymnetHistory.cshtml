@@ -1,0 +1,29 @@
+﻿@model List<KeyValuePair<DateTime, decimal>>
+
+<h2>Payment History</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Amount</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Key.ToString("yyyy-MM-dd")</td>
+                <td>@item.Value</td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts
+    {
+    <script>
+             $(document).ready(function () {
+                 $('table').DataTable();
+             });
+    </script>
+}
