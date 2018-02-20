@@ -228,6 +228,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\CustomException.cs" />
     <Compile Include="Utils\Enumeration.cs" />
+    <Compile Include="Utils\HandleErrorAttribute.cs" />
     <Compile Include="Utils\Service.cs" />
   </ItemGroup>
   <ItemGroup>

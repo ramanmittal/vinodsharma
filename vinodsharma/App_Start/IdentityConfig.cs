@@ -14,6 +14,7 @@ using vinodsharma.Models;
 using vinodsharma.Entities;
 using System.Net.Mail;
 using Microsoft.Owin.Security.DataProtection;
+using System.Net;
 
 namespace vinodsharma
 {
@@ -23,11 +24,11 @@ namespace vinodsharma
         {
             SmtpClient smtpClient = new SmtpClient();
             MailMessage mailMessage = new MailMessage();
-
+            //ServicePointManager.ServerCertificateValidationCallback += (o, c, ch, er) => true;
             mailMessage.To.Add(new MailAddress(message.Destination));
             mailMessage.Subject = message.Subject;
             mailMessage.Body = message.Body;
-            smtpClient.EnableSsl = true;
+           
             smtpClient.Send(mailMessage);
             return Task.FromResult(0);
         }
